@@ -29,27 +29,21 @@ namespace ge {
 		return imagePlane;
 	}
 
-	float Camera::getImagePlaneLength() {
-		return upperLeft.distanceTo(upperRight);
-	}
-
-	float Camera::getImagePlaneHeight() {
-		return lowerLeft.distanceTo(upperLeft);
-	}
-
 	void Camera::setPixelLocations(Point (&pixelLocations)[PIXELS_V][PIXELS_H]) {
-		float imagePlaneLength = getImagePlaneLength();
-		float imagePlaneHeight = getImagePlaneHeight();
-		float pxDistH = imagePlaneLength / PIXELS_H;
-		float pxDistV = imagePlaneHeight / PIXELS_V;
-		float halfPixelWidth = pxDistH / 2;
-
+		Plane imagePlane = getImagePlane();
+		Point a = imagePlane.getA();
+		Point b = imagePlane.getB();
+		Point d = imagePlane.getD();
+		Vector ab = Vector(a, b);
+		Vector ad = Vector(a, d);
 		for (int y = 0; y < PIXELS_V; y++) {
 			for (int x = 0; x < PIXELS_H; x++) {
-				float xx = getImagePlane().getA().getX(); // Hard coded x for now
-				float yy = getImagePlane().getA().getY() - (x * pxDistV + halfPixelWidth);
-				float zz = getImagePlane().getA().getZ() - (y * pxDistH + halfPixelWidth);
-				Point p = Point(xx, yy, zz);
+				float xScalar = ((float) x + 0.5) / PIXELS_H;
+				Vector xVector = ab.scale(xScalar);
+				float yScalar = ((float) y + 0.5) / PIXELS_V;
+				Vector yVector = ad.scale(yScalar);
+				Vector xyVector = Vector(a.getX(), a.getY(), a.getZ()).plus(xVector).plus(yVector);
+				Point p = Point(xyVector.getX(), xyVector.getY(), xyVector.getZ());
 				pixelLocations[y][x] = p;
 			}
 		}

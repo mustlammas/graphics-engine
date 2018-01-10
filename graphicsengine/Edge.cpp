@@ -17,7 +17,7 @@ namespace ge {
 
 	std::string Edge::str() {
 		std::ostringstream buffer;
-		buffer << "Edge(" << this->b.str() << " -> " << this->a.str() << ", "")";
+		buffer << "Edge(" << a.str() << " -> " << b.str() << ", "")";
 		return buffer.str();
 	}
 

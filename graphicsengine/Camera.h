@@ -5,8 +5,8 @@
 
 namespace ge {
 
-	const int PIXELS_H = 30;
-	const int PIXELS_V = 30;
+	const int PIXELS_H = 20;
+	const int PIXELS_V = 20;
 
 	class Camera
 	{
@@ -17,8 +17,6 @@ namespace ge {
 	public:
 		Camera(Point location, Vector direction);
 		Plane getImagePlane();
-		float getImagePlaneLength();
-		float getImagePlaneHeight();
 		void setPixelLocations(Point(&pixelLocations)[PIXELS_V][PIXELS_H]);
 		Point getLocation();
 	};

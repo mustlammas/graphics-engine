@@ -22,11 +22,15 @@ namespace ge {
 				Point i = ray.getIntersection(face);
 				bool intersects = face.containsPoint(i);
 				if (intersects) {
-					std::cout << " . ";
+					float distanceToCamera = camera.getLocation().distanceTo(i);
+					float distanceToImagePlane = pxLocation.distanceTo(i);
+					// Check that the intersection point is not behind the camera
+					if (distanceToCamera > distanceToImagePlane) {
+						std::cout << " . ";
+						continue;
+					}
 				}
-				else {
-					std::cout << " 0 ";
-				}
+				std::cout << " 0 ";
 			}
 			std::cout << "\n";
 		}
